@@ -11,9 +11,9 @@ cd ICON
 
 - Ubuntu 20 / 18
 - GCC = 7.5.0
-- **CUDA=11.0, GPU Memory > 12GB**
+- **CUDA=11.3, GPU Memory > 12GB**
 - Python = 3.8
-- PyTorch = 1.8.2 LTS (official [Get Started](https://pytorch.org/get-started/locally/))
+- PyTorch = 1.13.0 (official [Get Started](https://pytorch.org/get-started/locally/))
 - PyTorch3D (official [INSTALL.md](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md), recommend [install-from-local-clone](https://github.com/facebookresearch/pytorch3d/blob/main/INSTALL.md#2-install-from-a-local-clone))
 
 ```bash
@@ -35,7 +35,6 @@ conda env create -f environment.yaml
 conda init bash
 source ~/.bashrc
 source activate icon
-pip install torch==1.8.2 torchvision==0.9.2 torchaudio==0.8.2 --extra-index-url https://download.pytorch.org/whl/lts/1.8/cu111
 pip install -r requirements.txt --use-deprecated=legacy-resolver
 ```
 

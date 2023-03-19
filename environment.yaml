@@ -1,6 +1,6 @@
 name: icon
 channels:
-  - pytorch-lts
+  - pytorch
   - nvidia
   - conda-forge
   - fvcore
@@ -9,7 +9,7 @@ channels:
   - defaults
 dependencies:
   - python=3.8
-  - pytorch
+  - pytorch-cuda=11.3
   - torchvision
   - fvcore
   - iopath

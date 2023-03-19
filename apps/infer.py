@@ -394,7 +394,7 @@ if __name__ == "__main__":
 
         recon_obj = trimesh.Trimesh(verts_pr, faces_pr, process=False, maintains_order=True)
         recon_obj.export(os.path.join(args.out_dir, cfg.name, f"obj/{data['name']}_recon.obj"))
-
+        
         # Isotropic Explicit Remeshing for better geometry topology
         verts_refine, faces_refine = remesh(
             recon_obj, os.path.join(args.out_dir, cfg.name, f"obj/{data['name']}_remesh.obj"),
@@ -534,7 +534,7 @@ if __name__ == "__main__":
 
         # always export visualized png regardless of the cloth refinment
         per_data_lst[-1].save(os.path.join(args.out_dir, cfg.name, f"png/{data['name']}_cloth.png"))
-
+        
         # always export visualized video regardless of the cloth refinment
         if args.export_video:
             if final is not None:
