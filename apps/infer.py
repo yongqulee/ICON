@@ -233,7 +233,7 @@ if __name__ == "__main__":
             diff_F_smpl = torch.abs(in_tensor["T_normal_F"] - in_tensor["normal_F"])
             diff_B_smpl = torch.abs(in_tensor["T_normal_B"] - in_tensor["normal_B"])
 
-            losses["normal"]["value"] = (diff_F_smpl + diff_F_smpl).mean()
+            losses["normal"]["value"] = (diff_F_smpl + diff_B_smpl).mean()
 
             # silhouette loss
             smpl_arr = torch.cat([T_mask_F, T_mask_B], dim=-1)[0]
