@@ -59,7 +59,7 @@ if __name__ == "__main__":
     parser.add_argument("-patience", "--patience", type=int, default=5)
     parser.add_argument("-vis_freq", "--vis_freq", type=int, default=1000)
     parser.add_argument("-loop_cloth", "--loop_cloth", type=int, default=200)
-    parser.add_argument("-hps_type", "--hps_type", type=str, default="pymaf")
+    parser.add_argument("-hps_type", "--hps_type", type=str, default="pixie")
     parser.add_argument("-export_video", action="store_true")
     parser.add_argument("-in_dir", "--in_dir", type=str, default="./examples")
     parser.add_argument("-out_dir", "--out_dir", type=str, default="./results")
@@ -173,7 +173,7 @@ if __name__ == "__main__":
 
         # smpl optimization
 
-        loop_smpl = tqdm(range(args.loop_smpl if cfg.net.prior_type != "pifu" else 1))
+        loop_smpl = tqdm(range(args.loop_smpl))
 
         per_data_lst = []
 
@@ -233,7 +233,7 @@ if __name__ == "__main__":
             diff_F_smpl = torch.abs(in_tensor["T_normal_F"] - in_tensor["normal_F"])
             diff_B_smpl = torch.abs(in_tensor["T_normal_B"] - in_tensor["normal_B"])
 
-            losses["normal"]["value"] = (diff_F_smpl + diff_F_smpl).mean()
+            losses["normal"]["value"] = (diff_F_smpl + diff_B_smpl).mean()
 
             # silhouette loss
             smpl_arr = torch.cat([T_mask_F, T_mask_B], dim=-1)[0]
@@ -307,25 +307,23 @@ if __name__ == "__main__":
 
         os.makedirs(os.path.join(args.out_dir, cfg.name, "obj"), exist_ok=True)
 
-        if cfg.net.prior_type != "pifu":
+        per_data_lst[0].save(
+            os.path.join(args.out_dir, cfg.name, f"refinement/{data['name']}_smpl.gif"),
+            save_all=True,
+            append_images=per_data_lst[1:],
+            duration=500,
+            loop=0,
+        )
 
-            per_data_lst[0].save(
-                os.path.join(args.out_dir, cfg.name, f"refinement/{data['name']}_smpl.gif"),
-                save_all=True,
-                append_images=per_data_lst[1:],
-                duration=500,
-                loop=0,
+        if args.vis_freq == 1:
+            image2vid(
+                per_data_lst,
+                os.path.join(args.out_dir, cfg.name, f"refinement/{data['name']}_smpl.avi"),
             )
 
-            if args.vis_freq == 1:
-                image2vid(
-                    per_data_lst,
-                    os.path.join(args.out_dir, cfg.name, f"refinement/{data['name']}_smpl.avi"),
-                )
-
-            per_data_lst[-1].save(
-                os.path.join(args.out_dir, cfg.name, f"png/{data['name']}_smpl.png")
-            )
+        per_data_lst[-1].save(
+            os.path.join(args.out_dir, cfg.name, f"png/{data['name']}_smpl.png")
+        )
 
         norm_pred = (
             ((in_tensor["normal_F"][0].permute(1, 2, 0) + 1.0) * 255.0 /

@@ -197,8 +197,8 @@ class HGPIFuNet(BasePIFuNet):
                     # ):
                     (nmlF, nmlB) = self.normal_filter(in_tensor_dict)
                     # else:
-                        # nmlF = in_tensor_dict["normal_F"]
-                        # nmlB = in_tensor_dict["normal_B"]
+                    #     nmlF = in_tensor_dict["normal_F"]
+                    #     nmlB = in_tensor_dict["normal_B"]
                     feat_lst.append(nmlF)    # [1, 3, 512, 512]
                     feat_lst.append(nmlB)    # [1, 3, 512, 512]
             in_filter = torch.cat(feat_lst, dim=1)
