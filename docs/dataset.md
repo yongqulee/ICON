@@ -5,7 +5,13 @@
 
 :warning: For **EGL** headless rendering (without screen, such as clusters), please `export PYOPENGL_PLATFORM=egl` before running these scripts, otherwise, `unset PYOPENGL_PLATFORM`.
 
-:warning: If the program runs so slowly and is stuck in `mesh.ray.intersects_any`, uninstall and reinstall `pyembree` and `trimesh`, more details in [issue #62](https://github.com/YuliangXiu/ICON/issues/62).
+:warning: If the program runs so slowly and is stuck in `mesh.ray.intersects_any`, ~~uninstall and reinstall `pyembree` and `trimesh`, more details in [issue #62](https://github.com/YuliangXiu/ICON/issues/62)~~ it's because the trimesh is using the default triangle intersection function. Use `Pyembree` will accelerate the intersection computation. You can install `embree`, `pyembree`, `trimesh` via
+```
+conda install -c conda-forge embree=2.17.7
+conda install -c conda-forge pyembree
+```
+and test the installation via
+`from pyembree import rtcore_scene` and `print(trimesh.ray.ray_pyembree.error)`. If the error is `ray_pyembree has no attribute error`, then you are good to go.
 
 ## THuman2.0
 
